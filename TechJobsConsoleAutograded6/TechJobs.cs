@@ -62,21 +62,30 @@ namespace TechJobsConsoleAutograded6
                     Console.WriteLine(Environment.NewLine + "Search term: ");
                     string searchTerm = Console.ReadLine();
 
-                    // Fetch results
-                    if (columnChoice.Equals("all"))
 
+                    List<Dictionary<string, string>> searchResults;
+
+                    // Fetch results
+                    if (columnChoice.Equals("all"))                        
 
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindByValue(searchTerm);
+                        searchResults = JobData.FindByValue(searchTerm);
+                    }
+
+                    else
+
+                    {
+                        searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                    }
+
+                    if (searchResults.Count > 0) {
                         PrintJobs(searchResults);
                     }
                     else
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
-                        PrintJobs(searchResults);
+                        Console.WriteLine("No results");
                     }
-                }
-
+                } 
             }
         }
 
