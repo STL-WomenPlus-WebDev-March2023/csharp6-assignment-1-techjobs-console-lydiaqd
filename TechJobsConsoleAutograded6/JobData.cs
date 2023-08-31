@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Data.Common;
 using System.Text;
 
 namespace TechJobsConsoleAutograded6
 {
-	public class JobData
-	{
+    public class JobData
+    {
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
@@ -47,8 +48,30 @@ namespace TechJobsConsoleAutograded6
             // load data, if not already loaded
             LoadData();
 
-            return null;
+            // variable to hold jobs
+            List<Dictionary<string, string>> MatchingResults = new List<Dictionary<string, string>>();
+
+            // searches each dictionary in a list
+            foreach (Dictionary<string, string> aDictionary in AllJobs)
+            {
+                // searches each pair in a dictionary
+                foreach (KeyValuePair<string, string> result in aDictionary)
+
+                {
+                    // if the result does not contain the value and the value matches the users search
+                    if (!MatchingResults.Contains(aDictionary) && result.Value.Contains(value))
+
+                    // add the value to MatchingResults
+                    {
+                        MatchingResults.Add(aDictionary);
+                    }
+                }
+            }
+
+            return MatchingResults;
         }
+    
+
 
         /**
          * Returns results of search the jobs data by key/value, using
@@ -70,7 +93,7 @@ namespace TechJobsConsoleAutograded6
 
 
                 //TODO: Make search case-insensitive
-                if (aValue.Contains(value))
+                if (aValue.ToUpper().Contains(value.ToUpper()))
                 {
                     jobs.Add(row);
                 }
@@ -161,4 +184,3 @@ namespace TechJobsConsoleAutograded6
         }
     }
 }
-

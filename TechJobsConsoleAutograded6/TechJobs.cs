@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace TechJobsConsoleAutograded6
 {
@@ -61,18 +62,30 @@ namespace TechJobsConsoleAutograded6
                     Console.WriteLine(Environment.NewLine + "Search term: ");
                     string searchTerm = Console.ReadLine();
 
+
+                    List<Dictionary<string, string>> searchResults;
+
                     // Fetch results
-                    if (columnChoice.Equals("all"))
+                    if (columnChoice.Equals("all"))                        
+
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
+                    }
+
+                    else
+
+                    {
+                        searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                    }
+
+                    if (searchResults.Count > 0) {
+                        PrintJobs(searchResults);
                     }
                     else
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
-                        PrintJobs(searchResults);
+                        Console.WriteLine("No results");
                     }
-                }
-
+                } 
             }
         }
 
@@ -132,11 +145,23 @@ namespace TechJobsConsoleAutograded6
             return choiceKeys[choiceIdx];
         }
 
-        // TODO: complete the PrintJobs method.
+    // TODO: complete the PrintJobs method.
         public void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("PrintJobs is not implemented yet");
+            foreach (Dictionary<string, string> aDictionary in someJobs)
+            {
+                Console.WriteLine($"{Environment.NewLine}*****");
+
+                foreach (var entry in aDictionary)
+                {
+                    Console.WriteLine($"{entry.Key}: {entry.Value}");
+
+                        /*
+                        Console.WriteLine($"*****{Environment.NewLine}{entry}{entry}{entry}{entry}{entry}{Environment.NewLine}*****{Environment.NewLine}"); 
+                        */
+                }
+                Console.WriteLine("*****");
+            }
         }
     }
 }
-
